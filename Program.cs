@@ -15,9 +15,10 @@ namespace Lingumi
 
             Word[] words = { a, b, c, d };
 
-            String[] ids = { "bad", "bad", "cat", "pus" };
+            String[] ids = { "cat", "bad", "bad", "pus" };
 
             Word[] result = filterList(new List<Word>(words), new List<string>(ids));
+            result = sortByTimesLearned(result);
             for (int i = 0; i < result.Length; i++)
             {
                 Console.WriteLine(result[i]);
@@ -51,8 +52,49 @@ namespace Lingumi
                 }
             }
 
-            Word[] toReturn = filteredList.ToArray();
-            return toReturn;
+            return filteredList.ToArray();
+        }
+
+        private static Word[] sortByTimesLearned(Word[] words)
+        {
+            quickSort(words, 0, words.Length - 1);
+            return words;
+        }
+
+        // Quicksort Algorithms
+        // https://www.programmingalgorithms.com/algorithm/quick-sort-recursive
+
+        private static int partition(Word[] array, int left, int right)
+        {
+            int pivot = array[right].getNumberOfTimesLearned();
+            int temp;
+            int i = left;
+
+            for (int j = left; j < right; ++j)
+            {
+                if (array[j].getNumberOfTimesLearned() <= pivot)
+                {
+                    temp = array[j].getNumberOfTimesLearned();
+                    array[j].setNumberOfTimesLearned(array[i].getNumberOfTimesLearned());
+                    array[i].setNumberOfTimesLearned(temp);
+                    i++;
+                }
+            }
+
+            array[right] = array[i];
+            array[i].setNumberOfTimesLearned(pivot);
+
+            return i;
+        }
+
+        public static void quickSort(Word[] array, int left, int right)
+        {
+            if (left < right)
+            {
+                int q = partition(array, left, right);
+                quickSort(array, left, q - 1);
+                quickSort(array, q + 1, right);
+            }
         }
     }
 }
