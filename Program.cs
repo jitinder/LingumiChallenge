@@ -8,27 +8,42 @@ namespace Lingumi
     {
         static void Main(string[] args)
         {
-            Word a = new Word("apple", false, 2);
-            Word b = new Word("bad", false, 0);
-            Word c = new Word("cat", true, 5);
-            Word d = new Word("dog", false, 0);
-
-            Word[] words = { a, b, c, d };
-
-            String[] ids = { "cat", "bad", "bad", "pus" };
-
-            Word[] result = filterList(new List<Word>(words), new List<string>(ids));
-            result = sortByTimesLearned(result);
-            for (int i = 0; i < result.Length; i++)
-            {
-                Console.WriteLine(result[i]);
-            }
-            Console.ReadKey();
         }
 
-        public void sendStickers(List<Word> words, List<string> wordIds)
+        public string[] sendStickers(List<Word> words, List<string> wordIds)
         {
+            // Updating, Filtering then sorting in Descending order by numberOfTimesLearned
+            Word[] filtered = filterList(words, wordIds);
+            filtered = sortByTimesLearned(filtered);
+            // Sideline already sent Stickers for prioritising not sent stickers
+            List<Word> sent = new List<Word>();
+            List<Word> unsent = new List<Word>();
+            for (int i = 0; i < filtered.Length; i++)
+            {
+                if (filtered[i].isAlreadyCollected()) {
+                    sent.Add(filtered[i]);
+                } else {
+                    unsent.Add(filtered[i]);
+                }
+            }
+            string[] toSend = new string[3];
 
+            int fromUnsent = unsent.Count; // Number of Items in unsent
+            if(fromUnsent > 3){
+                fromUnsent = 3; // If Length of unsent > 3, set fromUnsent to 3, for setting toSend Values
+            }
+            int fromSent = 3 - fromUnsent; // Number of Items to put in toSend from Sent
+
+            // Set data from unsent
+            for (int i = 0; i < fromUnsent; i++) {
+                toSend[i] = unsent[i].getId();
+            }
+            // Set data from sent
+            for (int j = 0; j < fromSent; j++) {
+                toSend[fromUnsent + j - 1] = sent[j].getId();
+            }
+
+            return toSend;
         }
 
         private static Word[] filterList(List<Word> words, List<string> wordIds)
