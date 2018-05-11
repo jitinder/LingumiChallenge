@@ -8,6 +8,8 @@ namespace Lingumi
     {
         static void Main(string[] args)
         {
+            ProgramTest programTest = new ProgramTest();
+            //programTest.testMultipleWords();
         }
 
         /// <summary>
@@ -41,15 +43,23 @@ namespace Lingumi
             if(fromUnsent > 3){
                 fromUnsent = 3; // If Length of unsent > 3, set fromUnsent to 3, for setting toSend Values
             }
-            int fromSent = 3 - fromUnsent; // Number of Items to put in toSend from Sent
-
             // Set data from unsent
-            for (int i = 0; i < fromUnsent; i++) {
+            for (int i = 0; i < fromUnsent; i++)
+            {
                 toSend[i] = unsent[i].getId();
+            }
+
+            int fromSent = 0;
+            if(fromUnsent == 0)
+            {
+                fromSent = sent.Count;
+            }
+            if (sent.Count >= 3 - fromUnsent) {
+                fromSent = 3 - fromUnsent; // Number of Items to put in toSend from Sent
             }
             // Set data from sent (if needed)
             for (int j = 0; j < fromSent; j++) {
-                toSend[fromUnsent + j - 1] = sent[j].getId();
+                toSend[fromUnsent + j] = sent[j].getId();
             }
 
             return toSend;
