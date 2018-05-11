@@ -95,6 +95,7 @@ namespace Lingumi
                 quickSort(array, left, q - 1);
                 quickSort(array, q + 1, right);
             }
+            Array.Reverse(array); // Descending Order
         }
     }
 }
