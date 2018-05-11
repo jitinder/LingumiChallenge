@@ -4,11 +4,14 @@ using System.Text;
 
 namespace Lingumi
 {
+    /// <summary>
+    /// Class representing a Word Object.
+    /// </summary>
     class Word
     {
-        private string id;
-        private bool hasAlreadyCollected;
-        private int numberOfTimesLearned;
+        private string id; // Word ID
+        private bool hasAlreadyCollected; // Whether the Word has been collected before or not.
+        private int numberOfTimesLearned; // Number of Times the Word has been learned.
 
         public Word(string id, bool hasAlreadyCollected, int numberOfTimesLearned)
         {
@@ -17,6 +20,9 @@ namespace Lingumi
             this.numberOfTimesLearned = numberOfTimesLearned;
         }
 
+        /*
+         * Basic Getters and Setters
+         */
         public string getId()
         {
             return this.id;
@@ -47,6 +53,9 @@ namespace Lingumi
             this.numberOfTimesLearned = numberOfTimesLearned;
         }
         
+        /*
+         * Overriden function for ease of debugging
+         */
         override
         public string ToString()
         {

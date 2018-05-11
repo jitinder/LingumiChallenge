@@ -10,11 +10,19 @@ namespace Lingumi
         {
         }
 
+        /// <summary>
+        /// Function for determining and returning 3 most appropriate stickers
+        /// from an overall List of Words and a list of Word IDs learnt in the
+        /// most recent lesson
+        /// </summary>
+        /// <param name="words">List of Overall Words (Type: Word)</param>
+        /// <param name="wordIds">List of Word IDs (Type: String)</param>
+        /// <returns>Array of 3 Strings where each string is the Word ID for the sticker to reward</returns>
         public string[] sendStickers(List<Word> words, List<string> wordIds)
         {
-            // Updating, Filtering then sorting in Descending order by numberOfTimesLearned
             Word[] filtered = filterList(words, wordIds);
             filtered = sortByTimesLearned(filtered);
+
             // Sideline already sent Stickers for prioritising not sent stickers
             List<Word> sent = new List<Word>();
             List<Word> unsent = new List<Word>();
@@ -26,9 +34,10 @@ namespace Lingumi
                     unsent.Add(filtered[i]);
                 }
             }
-            string[] toSend = new string[3];
 
-            int fromUnsent = unsent.Count; // Number of Items in unsent
+            string[] toSend = new string[3]; // The Array that will be returned
+
+            int fromUnsent = unsent.Count;
             if(fromUnsent > 3){
                 fromUnsent = 3; // If Length of unsent > 3, set fromUnsent to 3, for setting toSend Values
             }
@@ -38,7 +47,7 @@ namespace Lingumi
             for (int i = 0; i < fromUnsent; i++) {
                 toSend[i] = unsent[i].getId();
             }
-            // Set data from sent
+            // Set data from sent (if needed)
             for (int j = 0; j < fromSent; j++) {
                 toSend[fromUnsent + j - 1] = sent[j].getId();
             }
@@ -46,6 +55,13 @@ namespace Lingumi
             return toSend;
         }
 
+        /// <summary>
+        /// Updates the value of numberOfTimesLearned for all Words that were learnt in the previous lesson
+        /// Creates a new list from the overall list which only contains Words with numberOfTimesLearned > 0
+        /// </summary>
+        /// <param name="words">List of Overall Words (Type: Word)</param>
+        /// <param name="wordIds">List of Word IDs (Type: String)</param>
+        /// <returns>An updated and appropriately filtered list of Words</returns>
         private static Word[] filterList(List<Word> words, List<string> wordIds)
         {
             List<Word> filteredList = new List<Word>();
@@ -70,14 +86,31 @@ namespace Lingumi
             return filteredList.ToArray();
         }
 
+        /// <summary>
+        /// Sorts an Array of Words using quickSort and reverses it to obtain 
+        /// Descending Order of numberOfTimesLearned
+        /// </summary>
+        /// <param name="words">Array of Words to sort (Type: Word)</param>
+        /// <returns></returns>
         private static Word[] sortByTimesLearned(Word[] words)
         {
             quickSort(words, 0, words.Length - 1);
+            Array.Reverse(words); // Descending Order
             return words;
         }
 
-        // Quicksort Algorithms
-        // https://www.programmingalgorithms.com/algorithm/quick-sort-recursive
+        // Functions for implementing QuickSort on an Array of Words
+
+        /*************************************************************************************** 
+        *    Basic code for QuickSort on an array of Integers used from:
+        *    
+        *    Title:         Quick Sort Recursive Implementation
+        *    Author:        Programming Algorithms
+        *    Date:          11th May 2018
+        *    Code version:  1
+        *    Availability:  https://www.programmingalgorithms.com/algorithm/quick-sort-recursive
+        *
+        ***************************************************************************************/
 
         private static int partition(Word[] array, int left, int right)
         {
@@ -110,7 +143,6 @@ namespace Lingumi
                 quickSort(array, left, q - 1);
                 quickSort(array, q + 1, right);
             }
-            Array.Reverse(array); // Descending Order
         }
     }
 }
