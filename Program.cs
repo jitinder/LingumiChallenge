@@ -15,7 +15,7 @@ namespace Lingumi
         /// <summary>
         /// Function for determining and returning 3 most appropriate stickers
         /// from an overall List of Words and a list of Word IDs learnt in the
-        /// most recent lesson
+        /// most recent lesson.
         /// </summary>
         /// <param name="words">List of Overall Words (Type: Word)</param>
         /// <param name="wordIds">List of Word IDs (Type: String)</param>
@@ -24,7 +24,6 @@ namespace Lingumi
         {
             Word[] filtered = filterList(words, wordIds);
             filtered = sortByTimesLearned(filtered);
-
             // Sideline already sent Stickers for prioritising not sent stickers
             List<Word> sent = new List<Word>();
             List<Word> unsent = new List<Word>();

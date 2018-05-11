@@ -7,7 +7,11 @@ namespace Lingumi
 {
     class ProgramTest
     {
-        public void testSample_1()
+
+        /// <summary>
+        /// Tests the return value if WordList and IDList have one value
+        /// </summary>
+        public void testSample()
         {
             List<Word> Wordlist = new List<Word>();
             List<string> Idlist = new List<string>();
@@ -21,7 +25,9 @@ namespace Lingumi
             Debug.Assert(s[0] == "one");
         }
 
-
+        /// <summary>
+        /// Tests for Multiple Words and IDs. Priority checking is tested.
+        /// </summary>
         public void testMultipleWords()
         {
             List<Word> Wordlist = new List<Word>();
